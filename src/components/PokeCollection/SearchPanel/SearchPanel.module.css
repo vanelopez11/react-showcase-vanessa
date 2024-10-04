@@ -1,0 +1,201 @@
+/* Search  */
+
+.searchPanel {
+  width: 251px;
+  height: 768px;
+  padding: 16px 0px 16px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.searchContainer {
+  width: 251px;
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchInput {
+  width: 180px;
+  height: 32px;
+  padding: 4px 8px 4px 8px;
+  border-radius: 4px;
+  border: 1px solid hsla(215, 25%, 27%, 1);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+}
+
+.searchButton {
+  width: 67px;
+  height: 32px;
+  padding: 4px 8px 4px 8px;
+  gap: 4px;
+  border-radius: 4px;
+  background-color: hsla(221, 91%, 60%, 1);
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  color: hsla(0, 0%, 100%, 1);
+}
+
+/* pokeCard */
+
+.pokeCard {
+  width: 213px;
+  min-height: 328px;
+  padding: 8px;
+  gap: 16px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  width: 197px;
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pokeName {
+  width: 197px;
+  height: 32px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  text-align: center;
+}
+
+.pokeId {
+  height: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+}
+
+.pokeImage {
+  width: 140px;
+  height: 140px;
+}
+
+.pokeType {
+  width: 170px;
+  min-height: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pokeType > span {
+  height: 20px;
+  padding: 2px 8px 2px 8px;
+  border-radius: 10px;
+  background-color: hsla(304, 45%, 44%, 1); /* Pendiente hacerlo variable */
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: hsla(0, 0%, 100%, 1);
+}
+
+/* pokeStatus */
+
+.pokeStatus {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 177px;
+  height: 48px;
+  gap: 24px;
+}
+
+.status__container {
+  width: 64px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status__divisor {
+  width: 1px;
+  height: 48px;
+  background: hsla(0, 0%, 88%, 1);
+}
+
+.status__number {
+  width: 58px;
+  height: 32px;
+  padding: 8px 0px 8px 0px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+
+.status__number > span {
+  width: 36px;
+  height: 16px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  margin-left: 6px;
+}
+
+.status__image {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+
+.status__title {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  color: hsla(215, 16%, 47%, 1);
+}
+
+/* addToFavorites */
+
+.addToFavorites {
+  width: 170px;
+  height: 32px;
+  padding: 4px 8px 4px 8px;
+  gap: 4px;
+  border-radius: 4px;
+  border: 1px solid hsla(221, 91%, 60%, 1);
+}
+
+.removeToFavorites {
+    width: 200px;
+}
+
+.favoriteImage {
+  width: 24px;
+  height: 24px;
+}
+
+.addToFavorites > span {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  height: 24px;
+  color: hsla(221, 91%, 60%, 1);
+}

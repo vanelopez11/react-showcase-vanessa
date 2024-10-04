@@ -1,0 +1,18 @@
+.poke {
+  min-height: 924px;
+  /* min-width: 1440px; */
+  padding: 64px 16px 64px 16px;
+  gap: 32px;
+  margin: 0px 60px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  height: 960px;
+  padding: 64px 16px 64px 16px;
+}
+
