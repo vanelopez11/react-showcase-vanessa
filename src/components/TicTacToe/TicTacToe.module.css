@@ -1,0 +1,136 @@
+.tictactoe {
+  min-height: 924px;
+  padding: 64px 16px 64px 16px;
+  gap: 32px;
+  margin: 0px 60px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.container {
+  width: 1248px;
+  height: 390px;
+  padding: 64px 16px 64px 16px;
+  gap: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: hsla(0, 0%, 100%, 1);
+  box-shadow: 0px 2px 4px -2px hsla(0, 0%, 0%, 0.1);
+}
+
+.game {
+  width: 524px;
+  height: 326px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.game_board {
+  width: 270px;
+  height: 326px;
+}
+
+.board {
+  width: 270px;
+  height: 270px;
+  border: 1px solid hsla(213, 27%, 84%, 1);
+}
+
+.board_row {
+  width: 270px;
+  height: 90px;
+}
+
+.board_row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.status {
+  margin-bottom: 10px;
+  height: 46px;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+  text-align: center;
+}
+
+.game_info {
+  width: 230px;
+  margin-left: 20px;
+  height: 326px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reset {
+  width: 110px;
+  height: 40px;
+  padding: 12px 16px 12px 16px;
+  border-radius: 8px;
+  background-color: hsla(0, 74%, 42%, 1);
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  color: hsla(0, 0%, 100%, 1);
+  margin-bottom: 16px;
+}
+
+.game_info > p {
+  height: 32px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  text-align: left;
+}
+
+.actionsContainer {
+  width: 230px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 110px;
+  height: 32px;
+  border-radius: 8px;
+
+  background-color: hsla(221, 91%, 60%, 1);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  color: hsla(0, 0%, 100%, 1);
+  margin-bottom: 8px;
+  cursor: auto;
+}
+
+.square {
+  float: left;
+  font-weight: bold;
+  text-align: center;
+  height: 90px;
+  width: 90px;
+  border: 1px solid hsla(213, 27%, 84%, 1);
+  font-family: Rubik Mono One;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 48px;
+}
+
+.player_O {
+  color: hsla(142, 76%, 36%, 1);
+}
