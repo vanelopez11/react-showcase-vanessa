@@ -1,7 +1,9 @@
 import styles from "./Header.module.css";
+import { View } from "../App";
 
 type HeaderProps = {
-  projectName: string;
+  projectName: View;
+  setView: (view: View) => void;
 }
 
 function Header(props: HeaderProps) {
@@ -9,8 +11,12 @@ function Header(props: HeaderProps) {
     <>
       <div className={styles.header}>
         <div className={styles.container}>
-          <h1 className={styles.title}>React Showcase</h1>
-          {props.projectName != "portfolio" && <h2 className={styles.projectName}>{props.projectName}</h2>}
+          <button className={styles.title} onClick={() => props.setView("Portfolio")}>
+            React Showcase
+          </button>
+          {props.projectName != "Portfolio" && (
+            <h2 className={styles.projectName}>{props.projectName}</h2>
+          )}
           <div className={styles.language}>
             <button className={styles.active}>
               <img src="https://s3-alpha-sig.figma.com/img/300f/0a14/b9ee86f478ab610fa83ab85ef5068efd?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=M0B5PHQQN5olmBc06kEmR7lBoUsGkdmpsCPB59aPs0T5XHhiP3yVPO2kUbw1SG~CDGbhzpxJUTLKELzCRjKdGLgtARTy45MhAH43oY42LWPmyxjCk~lB~quJ4B5w0pf5akCWSEpzkvXf7LvyO9lGdrLxTly8coaSG5OhZBodXTPOqV-OEXZIRapGM3M6T1PdjuTWVHUn1bNbNa1-vVdVNZUZT1Xl1cpIFbeYtKGOr7bsb~cqfyLYGP6CwphcntWhc3IuRmFaPfgFTzt-F5HwJt30YlCcSoM16QNcsMONCoey26TB1~DCp0rhqvdfwcm8vu~XKx3sGch4p~B3sWMoSA__"></img>
