@@ -1,4 +1,6 @@
 import styles from "./FavoritesPanel.module.css";
+import * as React from "react";
+import { UserContext } from "../UserProvider";
 
 function FavoriteCard() {
   return (
@@ -19,11 +21,20 @@ function FavoriteCard() {
 }
 
 function FavoritesPanel() {
+  const userContext = React.useContext(UserContext)!;
+
+  function handleLogout() {
+    userContext.setUsername("");
+  }
+
   return (
     <>
       <div className={styles.favoritesPanel}>
         <div className={styles.container}>
-          <h2 className={styles.title}>Favorites</h2>
+          <div className={styles.container__header}>
+            <h2 className={styles.title}>Favorites</h2>
+            <button className={styles.exit} onClick={handleLogout}>Exit</button>
+          </div>
           <div className={styles.favoritesList}>
             <FavoriteCard />
             <FavoriteCard />
