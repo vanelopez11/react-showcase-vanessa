@@ -6,20 +6,26 @@ import TicTacToe from "../TicTacToe";
 import styles from "./App.module.css";
 import * as React from "react";
 
-type View = "portfolio" | "TicTacToe" | "PokeCollection";
+export type View = "Portfolio" | "ReactDev TicTacToe" | "Poke Collection";
 
 function App() {
-  const [view, setView] = React.useState<View>("portfolio");
+  const [view, setView] = React.useState<View>("Portfolio");
+
+  const components = {
+    "Portfolio": <Portfolio setView={setView} />,
+    "ReactDev TicTacToe": <TicTacToe />,
+    "Poke Collection": (
+      <UserProvider>
+        <PokeCollection />
+      </UserProvider>
+    ),
+  };
 
   return (
     <>
-      <Header projectName={view} />
+      <Header projectName={view} setView={setView}/>
       <div className={styles.main}>
-        <Portfolio />
-        <TicTacToe />
-        <UserProvider>
-          <PokeCollection />
-        </UserProvider>
+        {components[view]}
       </div>
     </>
   );

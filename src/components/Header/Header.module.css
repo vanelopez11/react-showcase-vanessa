@@ -17,6 +17,8 @@
 }
 
 .title {
+  display: flex;
+  width: 273px;
   font-family: Nunito;
   font-size: 36px;
   font-weight: 700;
@@ -39,6 +41,8 @@
 .language {
   display: flex;
   flex-direction: row;
+  width: 273px;
+  justify-content: right;
 }
 
 button {

@@ -3,12 +3,13 @@ import styles from "./ProjectCard.module.css";
 type ProjectCardProps = {
   title: string;
   image: string;
+  onClick: () => void;
 }
 
 function ProjectCard(props: ProjectCardProps) {
   return (
     <>
-      <button className={styles.card}>
+      <button value={props.title} className={styles.card} onClick={props.onClick}>
         <img
           className={styles.image}
           src={props.image}>  
