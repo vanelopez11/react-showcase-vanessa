@@ -27,6 +27,8 @@ function FavoritesPanel() {
           <div className={styles.favoritesList}>
             <FavoriteCard />
             <FavoriteCard />
+            <FavoriteCard />
+            <FavoriteCard />
           </div>
         </div>
       </div>
