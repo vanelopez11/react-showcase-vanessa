@@ -2,6 +2,8 @@ import styles from "./FavoritesPanel.module.css";
 import * as React from "react";
 import { UserContext } from "../UserProvider";
 
+
+
 function FavoriteCard() {
   return (
     <>
