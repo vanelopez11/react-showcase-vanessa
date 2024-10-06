@@ -1,15 +1,13 @@
 import * as React from "react";
 import styles from "./SearchPanel.module.css";
 
-// Falta agregar logica boton add remove favorites
 type Pokemon = {
-  id: string;
+  id: number;
   name: string;
   types: string[];
   avatarUrl: string;
   weight: string;
   height: string;
-  favorite: boolean;
 };
 
 type PokeAPIResponse = {
@@ -21,6 +19,14 @@ type PokeAPIResponse = {
   height: number;
 };
 
+type FavoriteAPIResponse = {
+  id: number;
+  name: string;
+  types: string[];
+  avatarUrl: string;
+};
+
+
 type StatusSearch = "idle" | "loading" | "success" | "error";
 
 const url_pokeAPI = "https://pokeapi.co/api/v2/pokemon/";
@@ -28,45 +34,79 @@ const url_pokeAPI = "https://pokeapi.co/api/v2/pokemon/";
 function SearchPanel() {
   const [pokemon, setPokemon] = React.useState<Pokemon | null>(null);
   const [pokeSearch, setPokeSearch] = React.useState<string>("");
+  const [status, setStatus] = React.useState<StatusSearch>("idle");
+  const [isFavorite, setIsFavorite] = React.useState<boolean>(false);
   // const [inputSearch, setInputSearch] = React.useState<string>("");
 
-  const [status, setStatus] = React.useState<StatusSearch>("idle");
-
   React.useEffect(() => {
-    const favoritesList = ["pikachu", "ditto"];
+    
+    // const favoritesList = ["pikachu", "ditto", "mew"].map((p) =>
+    //   p.toLocaleLowerCase()
+    // );
+    let favoritesList: string[] = [];
 
-    const fetchPokemonSearch = async () => {
+    // FETCH GET FAVORITES
+
+    const getFavoritesPoke = async () => {
       if (pokeSearch === "") return;
       setStatus("loading");
 
       try {
-        const response = await fetch(url_pokeAPI + pokeSearch);
-        const data = await response.json();
+        const response = await fetch("https://poke-collection-lite-production.up.railway.app/api/" + "vanessa" + "/favorites");
+        
+        if (response.ok) {
+          const data = await response.json();
+               
+          favoritesList = data.data.map((poke: FavoriteAPIResponse) => poke.name);
+          console.log(favoritesList);
+          getPokeSearch();
+        }
 
-        setPokemon(mapToPokemon(data, favoritesList));
-        setStatus("success");
       } catch (error) {
         console.error("Error al cargar los pokémones:", error);
         setStatus("error");
       }
     };
-    fetchPokemonSearch();
+    getFavoritesPoke();
+
+    // FETCH GET SEARCH POKE API
+
+    const getPokeSearch = async () => {
+      if (pokeSearch === "") return;
+      setStatus("loading");
+
+      try {
+        const response = await fetch(url_pokeAPI + pokeSearch);
+        
+        if (response.ok) {
+          const data = await response.json();
+          const pokeResult = mapToPokemon(data);
+          setPokemon(pokeResult);
+          setIsFavorite(
+            favoritesList.includes(pokeResult.name.toLocaleLowerCase())
+          );
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
+
+      } catch (error) {
+        console.error("Error al cargar los pokémones:", error);
+        setStatus("error");
+      }
+    };
+    // getPokeSearch();
   }, [pokeSearch]);
 
-  function mapToPokemon(
-    data: PokeAPIResponse,
-    favoritesList: string[]
-  ): Pokemon {
+  function mapToPokemon(data: PokeAPIResponse): Pokemon {
+    console.log(data.forms[0].name);
     return {
-      id: `#${String(data.id).padStart(3, "0")}`,
-      name:
-        data.forms[0].name.charAt(0).toUpperCase() +
-        data.forms[0].name.slice(1).toLowerCase(),
+      id: data.id,
+      name: data.forms[0].name,
       types: data.types.map((t: { type: { name: string } }) => t.type.name),
       avatarUrl: data.sprites.other["official-artwork"].front_default,
       weight: `${(data.weight / 10).toFixed(1)} kg`,
       height: `${(data.height / 10).toFixed(1)} m`,
-      favorite: favoritesList.includes(data.forms[0].name),
     };
   }
 
@@ -74,6 +114,66 @@ function SearchPanel() {
     event.preventDefault();
     // setPokeSearch(inputSearch);
     setPokeSearch(pokeSearch);
+  }
+
+  // FETCH POST FAVORITES
+  const addToFavorites = async (pokemon: Pokemon | null) => {
+    const url =
+      "https://poke-collection-lite-production.up.railway.app/api/vanessa/favorites";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pokemon),
+    };
+
+    try {
+      const response = await fetch(url, options);
+
+      if (response.ok) {
+        setIsFavorite(!isFavorite);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud POST:", error);
+    }
+  };
+
+  function handleAddFavorite(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    addToFavorites(pokemon);
+    console.log("Adding to favorites:");
+    console.log(pokemon);
+  }
+
+  function capitalizeFirst(text: string) {
+    if (!text) return ""; // Manejar cadenas vacías
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
+
+  // FETCH DELETE FAVORITES
+
+  const removeToFavorites = async (pokemon: Pokemon | null) => {
+    const url =
+      `https://poke-collection-lite-production.up.railway.app/api/vanessa/favorites/${pokemon?.id}`;
+    const options = {method: "DELETE"};
+
+    try {
+      const response = await fetch(url, options);
+
+      if (response.ok) {
+        setIsFavorite(!isFavorite);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud POST:", error);
+    }
+  };
+
+  function handleRemoveFavorite(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    removeToFavorites(pokemon);
+    console.log("Removing to favorites:");
+    console.log(pokemon);
   }
 
   return (
@@ -106,8 +206,12 @@ function SearchPanel() {
           <>
             <div className={styles.pokeCard}>
               <div className={styles.title}>
-                <h2 className={styles.pokeName}>{pokemon.name}</h2>
-                <span className={styles.pokeId}>{pokemon.id}</span>
+                <h2 className={styles.pokeName}>
+                  {capitalizeFirst(pokemon.name)}
+                </h2>
+                <span className={styles.pokeId}>
+                  #{String(pokemon.id).padStart(3, "0")}
+                </span>
               </div>
               <img className={styles.pokeImage} src={pokemon.avatarUrl}></img>
               <div className={styles.pokeType}>
@@ -178,8 +282,8 @@ function SearchPanel() {
               </div>
             </div>
 
-            {pokemon.favorite ? (
-              <button
+            {isFavorite ? (
+              <button onClick={handleRemoveFavorite}
                 className={`${styles.addToFavorites} ${styles.removeToFavorites}`}
               >
                 <div className={styles.favoriteImage}>
@@ -209,7 +313,10 @@ function SearchPanel() {
                 <span>Remove to Favorites</span>
               </button>
             ) : (
-              <button className={styles.addToFavorites}>
+              <button
+                onClick={handleAddFavorite}
+                className={styles.addToFavorites}
+              >
                 <div className={styles.favoriteImage}>
                   <svg
                     width="24"
