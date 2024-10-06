@@ -149,7 +149,7 @@
 }
 
 .status__number > span {
-  width: 36px;
+  width: 46px;
   height: 16px;
   font-size: 12px;
   font-weight: 400;
@@ -183,7 +183,9 @@
 }
 
 .removeToFavorites {
-    width: 200px;
+    width: 170px;
+    height: 60px;
+    padding-bottom: 25px;
 }
 
 .favoriteImage {
