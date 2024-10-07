@@ -34,7 +34,7 @@ function Wordle() {
       inputRef.current.disabled = false;
       inputRef.current.focus();
     }
-    if (wordleWords.length === 5) {
+    if (wordleWords.length > 0) {
       const randomWord = wordleWords[Math.floor(Math.random() * wordleWords.length)];
       setAnswer(randomWord);
       console.log("Palabra seleccionada:", randomWord); // Verificar la palabra seleccionada
@@ -77,13 +77,9 @@ function Wordle() {
 
   useEffect(() => {
     setWordleWords(wordleWordsData);
-    if (wordleWordsData.length > 0) {
-      restart(); 
-    }
   }, []); 
 
   useEffect(() => {
-    // Seleccionar respuesta aleatoria al iniciar
     if (answer === "" && wordleWords.length > 0) {
       const randomWord = wordleWords[Math.floor(Math.random() * wordleWords.length)];
       setAnswer(randomWord);
