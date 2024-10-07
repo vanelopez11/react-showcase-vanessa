@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
-// import { UserContext } from "../UserProvider";
 import styles from "./SearchPanel.module.css";
 
 export const ENDPOINT = "https://pokeapi.co/api/v2/pokemon/";
+
+type SearchPanelProps = {
+  favoriteList: () => Promise<{ ok: boolean, data: FavoriteAPIResponse[]}>;
+}
 
 type Pokemon = {
   id: number;
@@ -31,45 +34,27 @@ type FavoriteAPIResponse = {
 
 type StatusSearch = "idle" | "loading" | "success" | "error";
 
-function SearchPanel() {
+function SearchPanel(props: SearchPanelProps) {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [status, setStatus] = useState<StatusSearch>("idle");
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  // const { favorites, toggleFavorite } = useContext(UserContext)!;
+  const [favoritesList, setfavoritesList] = useState<string[]>([]);
 
-  // Declaración useEffect
+  // Declaración useEffect - Favorites
+  
   useEffect(() => {
-    let favoritesList: string[] = [];
-
-    // FETCH GET FAVORITES
-    const getFavoritesPoke = async () => {
-      if (searchTerm === "") return;
-      setStatus("loading");
-
-      try {
-        const response = await fetch(
-          "https://poke-collection-lite-production.up.railway.app/api/" +
-            "vanessa" +
-            "/favorites"
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-
-          favoritesList = data.data.map(
-            (poke: FavoriteAPIResponse) => poke.name
-          );
-          console.log(favoritesList);
-          searchPokemon();
-        }
-      } catch (error) {
-        console.error("Error al cargar los pokémones:", error);
-        setStatus("error");
+    props.favoriteList().then((response) => {
+      if (response.ok) {
+        const list = response.data.map((poke: FavoriteAPIResponse) => poke.name);
+        setfavoritesList(list)
       }
-    };
+    })
+  }, [isFavorite])
 
-    getFavoritesPoke();
+   // Declaración useEffect - Search
+
+  useEffect(() => {
 
     // FETCH GET SEARCH POKE API
     const searchPokemon = () => {
@@ -92,6 +77,7 @@ function SearchPanel() {
             console.log(data);
             const pokeResult = mapToPokemon(data);
             console.log(pokeResult);
+            console.log(favoritesList);
             setIsFavorite(
               favoritesList.includes(pokeResult.name.toLocaleLowerCase())
             );
@@ -103,6 +89,7 @@ function SearchPanel() {
         setStatus("error");
       }
     };
+    searchPokemon();
 
   }, [searchTerm]);
 
