@@ -2,6 +2,7 @@ import styles from "./FavoritesPanel.module.css";
 import * as React from "react";
 import { UserContext } from "../UserProvider";
 import { FavoriteAPIResponse } from "../PokePage";
+import { colorType } from "../colorUtils";
 
 type FavoritesPanelProps = {
   favoritesData: FavoriteAPIResponse[];
@@ -29,7 +30,7 @@ function FavoritesPanel(props: FavoritesPanelProps) {
         <img className={styles.pokeImage} src={pokemon.avatarUrl} />
         <div className={styles.pokeType}>
           {pokemon.types.map((type, index) => (
-            <span key={index}>{type}</span>
+            <span style={colorType(type)} key={index}>{capitalizeFirst(type)}</span>
           ))}
         </div>
       </div>

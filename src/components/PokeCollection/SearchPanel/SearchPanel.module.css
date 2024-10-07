@@ -2,7 +2,7 @@
 
 .searchPanel {
   width: 251px;
-  height: 768px;
+  min-height: 768px;
   padding: 16px 0px 16px 0px;
   display: flex;
   flex-direction: column;
@@ -121,11 +121,11 @@
   align-items: center;
   width: 177px;
   height: 48px;
-  gap: 24px;
+  gap: 20px;
 }
 
 .status__container {
-  width: 64px;
+  width: 72px;
   height: 48px;
   display: flex;
   flex-direction: column;
@@ -139,7 +139,7 @@
 }
 
 .status__number {
-  width: 58px;
+  width: 68px;
   height: 32px;
   padding: 8px 0px 8px 0px;
 
@@ -183,9 +183,7 @@
 }
 
 .removeToFavorites {
-    width: 170px;
-    height: 60px;
-    padding-bottom: 25px;
+    width: 200px;
 }
 
 .favoriteImage {

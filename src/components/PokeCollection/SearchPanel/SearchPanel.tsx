@@ -4,6 +4,7 @@ import { FavoriteAPIResponse } from "../PokePage";
 export const ENDPOINT = "https://pokeapi.co/api/v2/pokemon/";
 import * as React from "react";
 import { UserContext } from "../UserProvider/UserProvider";
+import { colorType } from "../colorUtils";
 
 type SearchPanelProps = {
   handleStatusFav: () => void;
@@ -85,8 +86,9 @@ function SearchPanel(props: SearchPanelProps) {
 
   function mapToPokemon(data: PokeAPIResponse): Pokemon {
     console.log(data.forms[0].name);
-    const weight = data.weight >= 100 ? (data.weight / 1000).toFixed(1) : (data.weight / 10).toFixed(1);
-    const unit = data.weight >= 100 ? "T" : "Kg";
+    console.log(data.weight);
+    const weight = data.weight >= 999 ? (data.weight / 10000).toFixed(1) : (data.weight / 10).toFixed(1);
+    const unit = data.weight >= 999 ? "T" : "Kg";
 
     return {
       id: data.id,
@@ -168,7 +170,7 @@ function SearchPanel(props: SearchPanelProps) {
             className={styles.searchInput}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search Pokémon"
+            placeholder="Search Pokemon"
           />
           <button
             type="submit"
@@ -201,7 +203,7 @@ function SearchPanel(props: SearchPanelProps) {
               />
               <div className={styles.pokeType}>
                 {pokemon.types.map((type, index) => (
-                  <span key={index}>{type}</span>
+                  <span style={colorType(type)} key={index}>{capitalizeFirst(type)}</span>
                 ))}
               </div>
               <div className={styles.pokeStatus}>
