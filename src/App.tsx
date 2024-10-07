@@ -1,7 +1,7 @@
-// src/App.tsx
+
 import React, { useEffect, useState } from 'react';
 import VideoPlayer from './VideoPlayer';
-// import './styles.css';
+
 
 const App: React.FC = () => {
   const [videos, setVideos] = useState<string[]>(() => {

@@ -1,10 +1,10 @@
-// src/VideoPlayer.tsx
+
 import React from 'react';
 import ReactPlayer from 'react-player';
 
 interface VideoPlayerProps {
   url: string;
-  playing: boolean; // Corregido de "boolen" a "boolean"
+  playing: boolean; 
   volume: number;
   playbackRate: number;
   onPlay: () => void;
