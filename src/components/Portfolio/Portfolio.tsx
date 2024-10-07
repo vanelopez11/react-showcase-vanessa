@@ -19,7 +19,7 @@ function Portfolio({ setView }: { setView: (view: View) => void }) {
         <ProjectCard
           title="React Wordle"
           image="https://s3-alpha-sig.figma.com/img/323e/6f9c/9090622f65663d39068cde5747babf1f?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AUFDvrGg2jyRw0geSLimjep~R1YDWYtrVIOjSTucNGechJIteZRgdQfd~v9F9fV5RHpyUea8uMd7pxhRXFvzAIB5BgryXIRxlyDjVzU9RSxKXTQeYxirSvpWLZLbmOGw0NyIVna-pVQsaUSvH4GrU-5a4UfMQzorgdGfLEgvj1NfVBZ~ZhXDJuhcfn3C5kYGI1aFrgTIOSDBN~m~dECaZXIif4XO6SADUXS9CmZipbohckT8V2EfmSKNnzSoRaJGDcj5xAnHVqV3ibTCsmpI8uV0KG3KMb7VOqLGf7qSCVlFXTmF5u63griGsn3bGaGF6tkFU4T~n8XK3jAWB2dHQg__"
-          onClick={() => setView("Portfolio")}
+          onClick={() => setView("Wordle")}
         />
         <ProjectCard
           title="Video Feed"
