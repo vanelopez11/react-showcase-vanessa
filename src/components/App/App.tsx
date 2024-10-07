@@ -3,10 +3,11 @@ import PokeCollection from "../PokeCollection";
 import { UserProvider } from "../PokeCollection/UserProvider";
 import Portfolio from "../Portfolio";
 import TicTacToe from "../TicTacToe";
+import Wordle from "../Wordle";
 import styles from "./App.module.css";
 import * as React from "react";
 
-export type View = "Portfolio" | "ReactDev TicTacToe" | "Poke Collection";
+export type View = "Portfolio" | "ReactDev TicTacToe" | "Poke Collection" | "Wordle";
 
 function App() {
   const [view, setView] = React.useState<View>("Portfolio");
@@ -19,6 +20,7 @@ function App() {
         <PokeCollection />
       </UserProvider>
     ),
+    "Wordle": <Wordle />
   };
 
   return (
