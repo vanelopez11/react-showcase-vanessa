@@ -19,6 +19,7 @@ function Wordle() {
   const inputOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const filteredValue = event.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase();
     setInputValue(filteredValue);
+    console.log(filteredValue);
   };
 
   const restart = () => {
@@ -33,7 +34,7 @@ function Wordle() {
       inputRef.current.disabled = false;
       inputRef.current.focus();
     }
-    if (wordleWords.length > 0) {
+    if (wordleWords.length === 5) {
       const randomWord = wordleWords[Math.floor(Math.random() * wordleWords.length)];
       setAnswer(randomWord);
       console.log("Palabra seleccionada:", randomWord); // Verificar la palabra seleccionada
@@ -69,6 +70,8 @@ function Wordle() {
       if (inputRef.current) {
         inputRef.current.focus();
       }
+    } else {
+      console.log("Error, debe ingresar una palabra de 5 letras")
     }
   };
 
@@ -90,11 +93,11 @@ function Wordle() {
   return (
     <div className={styles.container}>
       {attemps.map((word, index) => (
-        <p className={styles.guess} key={index}>
+        <div className={styles.guess} key={index}>
           {checkGuess(word, answer).map((letter, letterIndex) => (
             <Letter key={letterIndex} value={letter.Letter} status={letter.status} />
           ))}
-        </p>
+        </div>
       ))}
 
       <form className={styles.form} onSubmit={validateAttemp}>
