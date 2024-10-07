@@ -3,7 +3,7 @@
 .favoritesPanel {
   /* width: 917px; */
   width: 100%;
-  height: 768px;
+  min-height: 768px;
   padding: 16px;
   border-radius: 16px;
   display: flex;
@@ -81,8 +81,8 @@
 }
 
 .pokeTitle {
-  width: Hug (115px) px;
-  height: Hug (52px) px;
+  width: 135px;
+  height: 52px;
   gap: 4px;
   opacity: 0px;
   display: flex;
@@ -91,7 +91,7 @@
 }
 
 .pokeName {
-  width: 115px;
+  width: 135px;
   height: 28px;
   gap: 0px;
   opacity: 0px;

@@ -1,0 +1,29 @@
+.cell {
+  font-family: Nunito;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 48px;
+  height: 90px;
+  width: 90px;
+  border: 1px solid #CBD5E1;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.correct {
+  background-color: #047857;
+}
+
+.misplaced {
+  background-color: #CA8A04;
+}
+
+.incorrect {
+  background-color: #64748B;
+}
+
+.none {
+  background-color: none;
+}
