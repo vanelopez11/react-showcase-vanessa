@@ -1,58 +1,39 @@
 import styles from "./FavoritesPanel.module.css";
 import * as React from "react";
 import { UserContext } from "../UserProvider";
+import { FavoriteAPIResponse } from "../PokePage";
 
-interface Pokemon {
-  id: number;
-  name: string;
-  types: { type: { name: string } }[];
-  weight: number;
-  height: number;
-  sprites: {
-    front_default: string;
-    other: {
-      'official-artwork': {
-        front_default: string;
-      };
-    };
-  };
+type FavoritesPanelProps = {
+  favoritesData: FavoriteAPIResponse[];
 }
 
-function FavoriteCard({ pokemon }: { pokemon: Pokemon }) {
-  return (
-    <div className={styles.favoriteCard}>
-      <div className={styles.pokeTitle}>
-        <h2 className={styles.pokeName}>{pokemon.name}</h2>
-        <span className={styles.pokeId}>#{pokemon.id}</span>
-      </div>
-      <img className={styles.pokeImage} src={pokemon.sprites.other['official-artwork'].front_default} alt={pokemon.name} />
-      <div className={styles.pokeType}>
-        {pokemon.types.map((typeInfo, index) => (
-          <span key={index}>{typeInfo.type.name}</span>
-        ))}
-      </div>
-    </div>
-  );
+function capitalizeFirst(text: string) {
+  if (!text) return ""; // Manejar cadenas vacías
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
 
-
-function FavoritesPanel() {
-  const { favorites, setUsername } = React.useContext(UserContext)!;
-  const [favoritePokemons, setFavoritePokemons] = React.useState<Pokemon[]>([]);
-
-  React.useEffect(() => {
-    if (favorites.length > 0) {
-      Promise.all(
-        favorites.map(pokemonId =>
-          fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
-            .then(res => res.json())
-        )
-      ).then(setFavoritePokemons);
-    }
-  }, [favorites]);
+function FavoritesPanel(props: FavoritesPanelProps) {
+  const { setUsername } = React.useContext(UserContext)!;
 
   function handleLogout() {
     setUsername("");
+  }
+
+  function FavoriteCard({ pokemon }: { pokemon: FavoriteAPIResponse }) {
+    return (
+      <div className={styles.favoriteCard}>
+        <div className={styles.pokeTitle}>
+          <h2 className={styles.pokeName}>{capitalizeFirst(pokemon.name)}</h2>
+          <span className={styles.pokeId}>#{String(pokemon.id).padStart(3, "0")}</span>
+        </div>
+        <img className={styles.pokeImage} src={pokemon.avatarUrl} />
+        <div className={styles.pokeType}>
+          {pokemon.types.map((type, index) => (
+            <span key={index}>{type}</span>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -64,10 +45,10 @@ function FavoritesPanel() {
             <button className={styles.exit} onClick={handleLogout}>Exit</button>
           </div>
           <div className={styles.favoritesList}>
-          {favoritePokemons.length === 0 ? (
+          {props.favoritesData.length === 0 ? (
             <p>No favorites added yet.</p>
           ) : (
-            favoritePokemons.map(pokemon => (
+            props.favoritesData.map(pokemon => (
               <FavoriteCard key={pokemon.id} pokemon={pokemon} />
             ))
           )}

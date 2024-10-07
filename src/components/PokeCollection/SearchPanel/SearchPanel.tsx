@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import styles from "./SearchPanel.module.css";
-
+import { FavoriteAPIResponse } from "../PokePage";
 export const ENDPOINT = "https://pokeapi.co/api/v2/pokemon/";
+import * as React from "react";
+import { UserContext } from "../UserProvider/UserProvider";
 
 type SearchPanelProps = {
-  favoriteList: () => Promise<{ ok: boolean, data: FavoriteAPIResponse[]}>;
+  handleStatusFav: () => void;
+  favoritesData: FavoriteAPIResponse[];
 }
 
 type Pokemon = {
@@ -16,7 +19,7 @@ type Pokemon = {
   weight: string;
 };
 
-type PokeAPIResponse = {
+export type PokeAPIResponse = {
   id: number;
   forms: { name: string }[];
   types: { type: { name: string } }[];
@@ -25,32 +28,18 @@ type PokeAPIResponse = {
   height: number;
 };
 
-type FavoriteAPIResponse = {
-  id: number;
-  name: string;
-  types: string[];
-  avatarUrl: string;
-};
-
 type StatusSearch = "idle" | "loading" | "success" | "error";
+
+
 
 function SearchPanel(props: SearchPanelProps) {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [status, setStatus] = useState<StatusSearch>("idle");
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const [favoritesList, setfavoritesList] = useState<string[]>([]);
 
-  // Declaración useEffect - Favorites
-  
-  useEffect(() => {
-    props.favoriteList().then((response) => {
-      if (response.ok) {
-        const list = response.data.map((poke: FavoriteAPIResponse) => poke.name);
-        setfavoritesList(list)
-      }
-    })
-  }, [isFavorite])
+  const favoritesList = props.favoritesData.map((poke: FavoriteAPIResponse) => poke.name);
+  console.log(favoritesList);
 
    // Declaración useEffect - Search
 
@@ -77,10 +66,7 @@ function SearchPanel(props: SearchPanelProps) {
             console.log(data);
             const pokeResult = mapToPokemon(data);
             console.log(pokeResult);
-            console.log(favoritesList);
-            setIsFavorite(
-              favoritesList.includes(pokeResult.name.toLocaleLowerCase())
-            );
+            // console.log(favoritesList);
             setPokemon(pokeResult);
             setStatus("success");
           });
@@ -99,8 +85,8 @@ function SearchPanel(props: SearchPanelProps) {
 
   function mapToPokemon(data: PokeAPIResponse): Pokemon {
     console.log(data.forms[0].name);
-    const weight = data.weight > 10 ? (data.weight / 1000).toFixed(1) : (data.weight / 10).toFixed(1);
-    const unit = data.weight > 10 ? "T" : "Kg";
+    const weight = data.weight >= 100 ? (data.weight / 1000).toFixed(1) : (data.weight / 10).toFixed(1);
+    const unit = data.weight >= 100 ? "T" : "Kg";
 
     return {
       id: data.id,
@@ -118,9 +104,10 @@ function SearchPanel(props: SearchPanelProps) {
   }
 
   // FETCH POST FAVORITES
+  
+  const userContext = React.useContext(UserContext)!;
+  const url_APIFav = `https://poke-collection-lite-production.up.railway.app/api/${userContext.username}/favorites`;
   const addToFavorites = async (pokemon: Pokemon | null) => {
-    const url =
-      "https://poke-collection-lite-production.up.railway.app/api/vanessa/favorites";
     const options = {
       method: "POST",
       headers: {
@@ -130,10 +117,11 @@ function SearchPanel(props: SearchPanelProps) {
     };
 
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(url_APIFav, options);
 
       if (response.ok) {
         setIsFavorite(!isFavorite);
+        props.handleStatusFav();
       }
     } catch (error) {
       console.error("Error en la solicitud POST:", error);
@@ -150,14 +138,15 @@ function SearchPanel(props: SearchPanelProps) {
   // FETCH DELETE FAVORITES
 
   const removeToFavorites = async (pokemon: Pokemon | null) => {
-    const url = `https://poke-collection-lite-production.up.railway.app/api/vanessa/favorites/${pokemon?.id}`;
+    const url = `${url_APIFav}/${pokemon?.id}`;
     const options = { method: "DELETE" };
 
     try {
       const response = await fetch(url, options);
-
+      console.log(url);
       if (response.ok) {
         setIsFavorite(!isFavorite);
+        props.handleStatusFav();
       }
     } catch (error) {
       console.error("Error en la solicitud POST:", error);
@@ -277,7 +266,7 @@ function SearchPanel(props: SearchPanelProps) {
                 </div>
               </div>
 
-              {isFavorite ? (
+              {favoritesList.includes(pokemon.name) ? (
                 <button
                   onClick={handleRemoveFavorite}
                   className={`${styles.addToFavorites} ${styles.removeToFavorites}`}
